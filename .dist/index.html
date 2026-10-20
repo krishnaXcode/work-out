@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GameVerse — Snake & Ludo</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="background-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+
+        <div class="brand">
+            <div class="brand-icon">🎮</div>
+
+            <div>
+                <strong>GameVerse</strong>
+                <span>Mini Arcade</span>
+            </div>
+        </div>
+
+        <nav>
+            <button class="game-tab active" data-game="snake">
+                🐍 Snake
+            </button>
+
+            <button class="game-tab" data-game="ludo">
+                🎲 Ludo
+            </button>
+        </nav>
+
+        <button class="sound-btn" id="soundBtn">
+            🔊
+        </button>
+
+    </header>
+
+
+    <!-- ==================== -->
+    <!-- SNAKE -->
+    <!-- ==================== -->
+
+    <main>
+
+        <section id="snakeSection" class="game active">
+
+            <div class="hero">
+
+                <div>
+                    <span class="badge">ARCADE CLASSIC</span>
+
+                    <h1>
+                        Snake
+                        <span>Rush</span>
+                    </h1>
+
+                    <p>
+                        Eat, grow and survive as long as possible.
+                        How high can you score?
+                    </p>
+                </div>
+
+                <div class="score-board">
+
+                    <div>
+                        <small>SCORE</small>
+                        <strong id="snakeScore">0</strong>
+                    </div>
+
+                    <div>
+                        <small>BEST</small>
+                        <strong id="snakeBest">0</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="snake-layout">
+
+                <div class="game-card snake-card">
+
+                    <div class="canvas-container">
+
+                        <canvas id="snakeCanvas"></canvas>
+
+                        <div
+                            id="snakeOverlay"
+                            class="game-overlay"
+                        >
+
+                            <div class="overlay-content">
+
+                                <div class="big-icon">🐍</div>
+
+                                <h2>Snake Rush</h2>
+
+                                <p>
+                                    Press Start to begin
+                                </p>
+
+                                <button
+                                    id="snakeStart"
+                                    class="primary-btn"
+                                >
+                                    ▶ Start Game
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="snake-bottom">
+
+                        <div class="mobile-pad">
+
+                            <button data-dir="up">▲</button>
+
+                            <div>
+                                <button data-dir="left">◀</button>
+                                <button data-dir="down">▼</button>
+                                <button data-dir="right">▶</button>
+                            </div>
+
+                        </div>
+
+                        <div class="snake-actions">
+
+                            <button id="snakePause">
+                                ⏸ Pause
+                            </button>
+
+                            <button id="snakeRestart">
+                                ↻ Restart
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <aside class="side-panel">
+
+                    <h3>How to Play</h3>
+
+                    <div class="help-item">
+                        <span>⌨️</span>
+                        <div>
+                            <strong>Move</strong>
+                            <p>Arrow keys or WASD</p>
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <span>🍎</span>
+                        <div>
+                            <strong>Eat</strong>
+                            <p>Food makes your snake grow</p>
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <span>⚡</span>
+                        <div>
+                            <strong>Speed</strong>
+                            <p>The game gets faster</p>
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <span>💀</span>
+                        <div>
+                            <strong>Don't crash</strong>
+                            <p>Walls and your body end the game</p>
+                        </div>
+                    </div>
+
+                    <div class="tip">
+                        💡 <b>Tip:</b> Don't chase the food blindly.
+                        Plan your route before your snake gets too long.
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==================== -->
+        <!-- LUDO -->
+        <!-- ==================== -->
+
+        <section id="ludoSection" class="game">
+
+            <div class="hero">
+
+                <div>
+                    <span class="badge">CUSTOM PLAYERS</span>
+
+                    <h1>
+                        Ludo
+                        <span>Royale</span>
+                    </h1>
+
+                    <p>
+                        Roll the dice, move your tokens,
+                        capture opponents and race home.
+                    </p>
+                </div>
+
+                <div class="turn-display">
+
+                    <small>NOW PLAYING</small>
+
+                    <strong id="turnName">
+                        🔴 Player 1
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="ludo-layout">
+
+                <div class="game-card ludo-card">
+
+                    <div id="ludoBoard" class="ludo-board"></div>
+
+                </div>
+
+
+                <aside class="ludo-controls">
+
+                    <div class="ludo-settings">
+                        <h3>Game setup</h3>
+
+                        <label for="playerCount">
+                            Number of players
+                        </label>
+                        <select id="playerCount">
+                            <option value="2">2 players</option>
+                            <option value="3">3 players</option>
+                            <option value="4">4 players</option>
+                        </select>
+
+                        <div id="playerTypeSettings"></div>
+
+                        <p class="setup-hint">
+                            Changing these settings starts a new game.
+                        </p>
+                    </div>
+
+                    <div class="dice-card">
+
+                        <span>PLAYER TURN</span>
+
+                        <strong id="ludoPlayer">
+                            🔴 Player 1
+                        </strong>
+
+                        <button id="diceButton" class="dice-button">
+                            <span id="dice">⚀</span>
+                        </button>
+
+                        <p id="diceText">
+                            Roll the dice
+                        </p>
+
+                    </div>
+
+
+                    <div class="players">
+
+                        <h3>Players</h3>
+
+                        <div id="playerList"></div>
+
+                    </div>
+
+
+                    <button
+                        id="ludoRestart"
+                        class="primary-btn"
+                    >
+                        ↻ New Game
+                    </button>
+
+                    <p class="ludo-hint">
+                        Roll a 6 to bring a token onto the board.
+                        Landing on an opponent sends their token home.
+                    </p>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <span>GAMEVERSE</span>
+        <p>Built with HTML • CSS • JavaScript</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
