@@ -774,6 +774,14 @@ document.addEventListener(
     "keydown",
     event => {
 
+        if (
+            !snakeSection.classList.contains("active") ||
+            event.target instanceof HTMLElement &&
+            event.target.closest("input, select, textarea")
+        ) {
+            return;
+        }
+
         const key =
             event.key.toLowerCase();
 
@@ -839,8 +847,8 @@ function setSnakeDirection(newDirection) {
 
 
     if (
-        newDirection.x === -direction.x &&
-        newDirection.y === -direction.y
+        newDirection.x === -nextDirection.x &&
+        newDirection.y === -nextDirection.y
     ) {
 
         return;
@@ -968,6 +976,12 @@ let playerTypes = [
 let turnTimeout = null;
 
 let aiTimeout = null;
+
+let aiMoveTimeout = null;
+
+let diceRollInterval = null;
+
+let diceRollTimeout = null;
 
 let aiActing = false;
 
@@ -1178,6 +1192,9 @@ function resetLudo() {
 
     clearTimeout(turnTimeout);
     clearTimeout(aiTimeout);
+    clearTimeout(aiMoveTimeout);
+    clearTimeout(diceRollTimeout);
+    clearInterval(diceRollInterval);
 
     players = Array.from(
         { length: activePlayerCount },
@@ -1641,7 +1658,7 @@ function rollDice() {
     if (rolled) {
 
         diceText.textContent =
-            "Choose a highlighted token.";
+            "The dice is rolling.";
 
         return;
     }
@@ -1655,17 +1672,23 @@ function rollDice() {
 
     rolled = true;
 
-    diceDisplay.textContent =
-        diceFaces[currentDice];
-
     updateLudoUI();
+    diceText.textContent = aiActing
+        ? `${playerNames[currentPlayer]} is rolling...`
+        : "Rolling...";
 
+    const rollDuration = aiActing ? 1300 : 700;
+    let animationFaceIndex = 0;
 
     diceButton.animate(
         [
             {
                 transform:
-                    "rotate(0) scale(.8)"
+                    "rotate(0) scale(.72)"
+            },
+            {
+                transform:
+                    "rotate(180deg) scale(1.08)"
             },
             {
                 transform:
@@ -1673,17 +1696,27 @@ function rollDice() {
             }
         ],
         {
-            duration: 350
+            duration: rollDuration,
+            easing: "cubic-bezier(.2,.8,.2,1)"
         }
     );
 
+    diceRollInterval = setInterval(() => {
+        animationFaceIndex = animationFaceIndex % 6 + 1;
+        diceDisplay.textContent = diceFaces[animationFaceIndex];
+    }, 90);
 
-    beep(
-        350 + currentDice * 80,
-        .12
-    );
+    diceRollTimeout = setTimeout(() => {
+        clearInterval(diceRollInterval);
+        diceRollInterval = null;
+        diceRollTimeout = null;
+        diceDisplay.textContent = diceFaces[currentDice];
+        beep(350 + currentDice * 80, .12);
+        finishDiceRoll();
+    }, rollDuration);
+}
 
-
+function finishDiceRoll() {
     const possible =
         getMovableTokens(
             currentPlayer
@@ -1713,6 +1746,7 @@ function rollDice() {
                     renderTokens();
 
                     updateLudoUI();
+                    aiActing = false;
 
                     scheduleAITurn();
 
@@ -1732,12 +1766,32 @@ function rollDice() {
     }
 
 
-    diceText.textContent =
-        currentDice === 6
-            ? "Choose a token — rolling a 6 gives another turn."
-            : "Choose a highlighted token.";
+    if (aiActing) {
+        const actingPlayer = currentPlayer;
+        diceText.textContent =
+            `${playerNames[actingPlayer]} is choosing a token...`;
+        aiMoveTimeout = setTimeout(() => {
+            if (
+                gameOver ||
+                !rolled ||
+                actingPlayer !== currentPlayer ||
+                playerTypes[actingPlayer] !== "computer"
+            ) {
+                aiActing = false;
+                return;
+            }
 
-    renderTokens();
+            const chosenToken = chooseAIToken(possible);
+            diceText.textContent = "Moving token...";
+            moveToken(actingPlayer, chosenToken);
+            aiActing = false;
+        }, 600);
+        return;
+    }
+
+    const chosenToken = chooseAIToken(possible);
+    diceText.textContent = "Moving token...";
+    moveToken(currentPlayer, chosenToken);
 }
 
 
@@ -1821,7 +1875,7 @@ function scheduleAITurn() {
 
     aiTimeout = setTimeout(
         playAITurn,
-        650
+        1000
     );
 }
 
@@ -1836,25 +1890,7 @@ function playAITurn() {
     }
 
     aiActing = true;
-
     rollDice();
-
-    if (!rolled) {
-        aiActing = false;
-        return;
-    }
-
-    const possibleTokens =
-        getMovableTokens(currentPlayer);
-
-    if (possibleTokens.length) {
-        const chosenToken =
-            chooseAIToken(possibleTokens);
-
-        moveToken(currentPlayer, chosenToken);
-    }
-
-    aiActing = false;
 }
 
 

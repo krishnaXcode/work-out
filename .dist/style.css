@@ -6,22 +6,22 @@
 }
 
 :root {
-    --bg: #050816;
-    --panel: rgba(12, 18, 38, .82);
-    --panel2: rgba(20, 28, 52, .75);
+    --bg: #08111f;
+    --panel: rgba(15, 27, 45, .88);
+    --panel2: rgba(22, 38, 58, .82);
 
-    --text: #f8fafc;
-    --muted: #94a3b8;
+    --text: #f1f5f9;
+    --muted: #a1b2c5;
 
-    --purple: #8b5cf6;
-    --cyan: #06b6d4;
+    --purple: #3b82f6;
+    --cyan: #2dd4bf;
 
-    --red: #ef4444;
-    --green: #22c55e;
-    --yellow: #facc15;
-    --blue: #3b82f6;
+    --red: #ef5350;
+    --green: #20a875;
+    --yellow: #e7a92b;
+    --blue: #3978d4;
 
-    --border: rgba(255,255,255,.09);
+    --border: rgba(190, 210, 235, .12);
 }
 
 html {
@@ -44,14 +44,15 @@ body {
     background:
         radial-gradient(
             circle at 10% 10%,
-            rgba(139,92,246,.16),
-            transparent 30%
+            rgba(59,130,246,.18),
+            transparent 34%
         ),
         radial-gradient(
             circle at 90% 90%,
-            rgba(6,182,212,.12),
-            transparent 30%
+            rgba(45,212,191,.11),
+            transparent 34%
         ),
+        linear-gradient(145deg, #0b1728 0%, #08111f 52%, #0c1b2b 100%),
         var(--bg);
 
     overflow-x: hidden;
@@ -66,16 +67,16 @@ body {
 
     z-index: -5;
 
-    opacity: .18;
+    opacity: .12;
 
     background-image:
         linear-gradient(
-            rgba(255,255,255,.035) 1px,
+            rgba(190,210,235,.045) 1px,
             transparent 1px
         ),
         linear-gradient(
             90deg,
-            rgba(255,255,255,.035) 1px,
+            rgba(190,210,235,.045) 1px,
             transparent 1px
         );
 
@@ -110,6 +111,7 @@ body {
 
     top: -200px;
     left: -150px;
+    animation: orbDrift 18s ease-in-out infinite alternate;
 }
 
 .orb-2 {
@@ -117,6 +119,13 @@ body {
 
     bottom: -200px;
     right: -150px;
+    animation: orbDrift 22s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes orbDrift {
+    to {
+        transform: translate(35px, 25px) scale(1.08);
+    }
 }
 
 
@@ -148,7 +157,7 @@ body {
     border-radius: 20px;
 
     background:
-        rgba(8, 13, 30, .78);
+        rgba(9, 19, 33, .84);
 
     backdrop-filter: blur(20px);
 
@@ -452,7 +461,7 @@ main {
 
     border-radius: 17px;
 
-    background: #030712;
+    background: #0b1726;
 
     border: 1px solid rgba(255,255,255,.06);
 }
@@ -696,11 +705,11 @@ main {
 
     overflow: hidden;
 
-    border: 5px solid #111827;
+    border: 5px solid #25364a;
 
     border-radius: 18px;
 
-    background: white;
+    background: #dce6ef;
 
     box-shadow:
         0 30px 70px rgba(0,0,0,.35);
@@ -742,23 +751,23 @@ main {
 /* PATH */
 
 .path {
-    background: #f8fafc;
+    background: #edf2f7;
 }
 
 .red-path {
-    background: #fecaca;
+    background: #f8d4d2;
 }
 
 .green-path {
-    background: #bbf7d0;
+    background: #c9eadc;
 }
 
 .yellow-path {
-    background: #fef08a;
+    background: #f6e7b9;
 }
 
 .blue-path {
-    background: #bfdbfe;
+    background: #cbdcf4;
 }
 
 
@@ -817,6 +826,7 @@ main {
     transition:
         transform .2s,
         filter .2s;
+    animation: tokenEnter .3s ease-out;
 }
 
 .token:hover {
@@ -826,7 +836,21 @@ main {
 }
 
 .token.selectable {
-    animation: tokenPulse .8s infinite alternate;
+    animation:
+        tokenEnter .3s ease-out,
+        tokenPulse .8s .3s infinite alternate;
+}
+
+@keyframes tokenEnter {
+    from {
+        transform: scale(.65);
+        opacity: .55;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes tokenPulse {
@@ -935,7 +959,8 @@ main {
 
     border-radius: 22px;
 
-    background: white;
+    color: #17263a;
+    background: linear-gradient(145deg, #ffffff, #dce8f4);
 
     cursor: pointer;
 
@@ -951,6 +976,17 @@ main {
     transform:
         translateY(-4px)
         rotate(4deg);
+}
+
+.dice-button:focus-visible,
+.game-tab:focus-visible,
+.sound-btn:focus-visible,
+.primary-btn:focus-visible,
+.snake-actions button:focus-visible,
+.mobile-pad button:focus-visible,
+.token:focus-visible {
+    outline: 3px solid var(--cyan);
+    outline-offset: 3px;
 }
 
 .dice-button:active {
@@ -1165,6 +1201,213 @@ footer span {
 
     .ludo-controls {
         padding: 17px;
+    }
+}
+
+
+/* NEXT-GEN ARCADE */
+
+:root {
+    --bg: #060b18;
+    --panel: rgba(12, 22, 41, .88);
+    --panel2: rgba(17, 31, 54, .82);
+    --text: #e8f4ff;
+    --muted: #91a8c2;
+    --purple: #5685ff;
+    --cyan: #48f0dd;
+    --border: rgba(105, 190, 255, .18);
+}
+
+body {
+    background:
+        radial-gradient(ellipse at 12% 4%, rgba(44, 101, 225, .2), transparent 36%),
+        radial-gradient(ellipse at 88% 72%, rgba(39, 213, 203, .1), transparent 32%),
+        linear-gradient(145deg, #080e1e, #071321 52%, #0a1020);
+}
+
+.background-grid {
+    opacity: .17;
+    background-size: 52px 52px;
+    animation: gridDrift 32s linear infinite;
+    mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
+
+@keyframes gridDrift {
+    to {
+        background-position: 52px 52px;
+    }
+}
+
+.navbar {
+    border-color: rgba(105, 190, 255, .2);
+    background: rgba(7, 15, 30, .88);
+    box-shadow:
+        0 18px 55px rgba(0, 0, 0, .34),
+        inset 0 1px rgba(255, 255, 255, .035);
+}
+
+.brand-icon {
+    background: linear-gradient(145deg, #477cff, #29c7d7);
+    box-shadow: 0 0 26px rgba(63, 153, 255, .34);
+}
+
+.game-tab.active,
+.primary-btn {
+    background: linear-gradient(120deg, #3476f6, #16bfc9);
+    box-shadow: 0 8px 28px rgba(42, 156, 255, .25);
+}
+
+.game-tab.active {
+    color: #f5fdff;
+}
+
+.primary-btn:hover {
+    box-shadow: 0 12px 34px rgba(37, 215, 220, .3);
+}
+
+.badge {
+    border-color: rgba(72, 240, 221, .3);
+    color: var(--cyan);
+    background: rgba(72, 240, 221, .07);
+    box-shadow: inset 0 0 18px rgba(72, 240, 221, .04);
+}
+
+.hero h1 span {
+    color: transparent;
+    background: linear-gradient(100deg, #70a4ff, #55f2de);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.score-board > div,
+.turn-display {
+    border-color: rgba(105, 190, 255, .18);
+    background:
+        linear-gradient(145deg, rgba(19, 36, 62, .9), rgba(10, 20, 39, .9));
+    box-shadow: inset 0 1px rgba(255, 255, 255, .04);
+}
+
+.game-card,
+.side-panel,
+.ludo-controls {
+    border-color: rgba(105, 190, 255, .16);
+    background:
+        linear-gradient(145deg, rgba(15, 29, 51, .94), rgba(9, 18, 35, .94));
+    box-shadow:
+        0 28px 75px rgba(0, 0, 0, .32),
+        inset 0 1px rgba(255, 255, 255, .035);
+}
+
+.canvas-container {
+    filter: drop-shadow(0 12px 30px rgba(24, 152, 220, .12));
+}
+
+#snakeCanvas {
+    background: #06111c;
+    border-color: rgba(72, 240, 221, .2);
+    box-shadow: inset 0 0 34px rgba(24, 183, 204, .07);
+}
+
+.game-overlay {
+    background: rgba(4, 11, 24, .78);
+}
+
+.ludo-board {
+    border-color: #142c45;
+    box-shadow:
+        0 24px 65px rgba(0, 0, 0, .42),
+        0 0 32px rgba(55, 174, 245, .13);
+}
+
+.ludo-cell {
+    border-color: rgba(15, 35, 54, .15);
+}
+
+.token {
+    box-shadow:
+        0 0 11px currentColor,
+        0 4px 10px rgba(0, 0, 0, .4),
+        inset 0 2px 4px rgba(255, 255, 255, .55);
+}
+
+.token.red { color: #ff6666; }
+.token.green { color: #3be5a0; }
+.token.yellow { color: #ffd35a; }
+.token.blue { color: #69a8ff; }
+
+.token.selectable {
+    box-shadow:
+        0 0 18px currentColor,
+        0 0 34px currentColor,
+        inset 0 2px 4px rgba(255, 255, 255, .6);
+}
+
+.player.active {
+    color: #effaff;
+    border-color: rgba(72, 240, 221, .24);
+    background: linear-gradient(100deg, rgba(47, 191, 199, .13), rgba(59, 113, 242, .1));
+    box-shadow: inset 3px 0 var(--cyan);
+}
+
+.player.active i {
+    box-shadow: 0 0 12px currentColor;
+}
+
+.dice-button {
+    color: #e9fbff;
+    background: linear-gradient(145deg, #173350, #0c1b31);
+    border: 1px solid rgba(72, 240, 221, .42);
+    box-shadow:
+        0 0 24px rgba(31, 204, 213, .17),
+        inset 0 0 22px rgba(72, 240, 221, .08);
+}
+
+.dice-button:hover {
+    box-shadow:
+        0 0 32px rgba(31, 204, 213, .3),
+        inset 0 0 22px rgba(72, 240, 221, .12);
+}
+
+.dice-button:disabled {
+    cursor: wait;
+}
+
+#dice {
+    text-shadow: 0 0 18px rgba(72, 240, 221, .7);
+}
+
+.ludo-settings select {
+    border-color: rgba(105, 190, 255, .2);
+    background-color: #101f35;
+}
+
+.snake-actions button,
+.mobile-pad button {
+    border-color: rgba(105, 190, 255, .2);
+    background: rgba(44, 97, 145, .13);
+}
+
+.snake-actions button:hover,
+.mobile-pad button:hover {
+    border-color: rgba(72, 240, 221, .42);
+}
+
+.tip {
+    border-color: rgba(72, 240, 221, .16);
+    background: rgba(38, 193, 187, .07);
+}
+
+.game-tab,
+.primary-btn,
+.dice-button,
+.token,
+.player {
+    transition-timing-function: cubic-bezier(.2, .75, .25, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .background-grid {
+        animation: none;
     }
 }
 
